@@ -30,4 +30,5 @@ def delete_note(note_id):
     db.session.delete(note)
     db.session.commit()
     flash("Note deleted!", category='success')
-    return render_template('home.html', user=current_user)
+    notes = Note.query.order_by(Note.created.desc()).all()
+    return render_template('home.html', notes=notes, user=current_user)
