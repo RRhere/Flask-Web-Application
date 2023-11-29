@@ -40,7 +40,7 @@ def signup():
     if request.method=='POST':        
         email=request.form.get('email')
         first_name=request.form.get('firstName')
-        lastName=request.form.get('lastName')
+        last_name=request.form.get('lastName')
         password1=request.form.get('password1')
         password2=request.form.get('password2')
         
@@ -49,14 +49,14 @@ def signup():
           flash('Email already exists', category='error')         
         elif len(email)<4:
             flash('Email must be greater than 4 characters', category='error')
-        elif len(first_name or lastName)<2:
+        elif len(first_name or last_name)<2:
             flash('First Name and Last Name must be greater than 2 letters', category='error')
         elif password1!=password2:
             flash('Passwords do not match', category='error')
         elif len(password1)<7:
             flash('Password must be greater than 7 characters', category='error')
         else:
-            new_user=User(email=email, first_name=first_name, password=generate_password_hash(password1, method='pbkdf2:sha256:6000'))
+            new_user=User(email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method='pbkdf2:sha256:6000'))
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('views.home'))                       
