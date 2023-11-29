@@ -3,11 +3,8 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-from flask_mail import *  
-from random import *
 
 auth=Blueprint('auth',__name__)
-verified=False
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():

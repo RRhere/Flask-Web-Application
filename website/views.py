@@ -1,8 +1,10 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from . import db
-from .models import Note
+from .models import Note, User
 import json
+from sqlalchemy.sql import exists
+
 
 views=Blueprint('views',__name__)
 
@@ -19,9 +21,9 @@ def home():
             db.session.commit()
             flash("Note added!", category='success')
 
-        return redirect(url_for('index'))
+        #return redirect(url_for('views.home'))
 
-    notes = Note.query.order_by(Note.created.desc()).all()
+    notes = Note.query.filter(Note.user_id==current_user.id).all()
     return render_template('home.html', notes=notes, user=current_user)
 
 @views.route('/delete/<int:note_id>', methods=['POST'])
@@ -30,5 +32,5 @@ def delete_note(note_id):
     db.session.delete(note)
     db.session.commit()
     flash("Note deleted!", category='success')
-    notes = Note.query.order_by(Note.created.desc()).all()
+    notes = Note.query.filter(Note.user_id==current_user.id).all()
     return render_template('home.html', notes=notes, user=current_user)
