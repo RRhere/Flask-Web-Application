@@ -49,7 +49,7 @@ def signup():
           flash('Email already exists', category='error')         
         elif len(email)<4:
             flash('Email must be greater than 4 characters', category='error')
-        elif len(first_name or last_name)<2:
+        elif len(first_name and last_name)<2:
             flash('First Name and Last Name must be greater than 2 letters', category='error')
         elif password1!=password2:
             flash('Passwords do not match', category='error')
@@ -59,6 +59,8 @@ def signup():
             new_user=User(email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method='pbkdf2:sha256:6000'))
             db.session.add(new_user)
             db.session.commit()
+            login_user(new_user, remember=True)
+            flash('Account created!', category='success')
             return redirect(url_for('views.home'))                       
     return render_template("signup.html", user=current_user)
 
