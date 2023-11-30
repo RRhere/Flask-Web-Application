@@ -1,10 +1,16 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
+from . import db, mail
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
+import random
+from celery import Celery
 
 auth=Blueprint('auth',__name__)
+# Generate and send OTP
+celery = Celery(__name__)
+global otp_value
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -14,17 +20,47 @@ def login():
 
         user=User.query.filter_by(email=email).first()
         
-        if user:
+        if user and user.is_verified:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully', category='success')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
             else:
-                flash('Incorrect password, try again', category='error')
+                flash('Incorrect password or email not verified, try again', category='error')
+        elif user and not user.is_verified:
+            flash('Email not verified, verify now', category='error')
+            otp_value = random.randint(000000,999999)
+            send_otp_email(user.email, otp_value) 
+            flash('An OTP has been sent to your email. Please enter it to verify your account', 'info')          
+            return redirect(url_for('auth.verify', email=user.email, otp_value=otp_value))
         else:
             flash('Email does not exist', category='error')
     
-    return render_template("login.html", user=current_user)    
+    return render_template("login.html", user=current_user) 
+
+@auth.route('/verify/<email>/<otp_value>', methods=['GET', 'POST'])
+def verify(email, otp_value):
+    user = User.query.filter_by(email=email).first()
+
+    if request.method == 'POST':
+        user_otp = request.form.get('otp')
+
+        if user_otp==otp_value:
+            user.is_verified = True
+            db.session.commit()
+            flash('Account verified successfully, You can now log in', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Invalid OTP. Please try again.', 'error')
+
+    return render_template('verify.html', email=email, user=current_user) 
+@celery.task
+def send_otp_email(email, otp):
+    subject = 'OTP Verification'
+    body = f'Your OTP for account verification is: {otp}'
+
+    msg = Message(subject, recipients=[email], body=body)
+    mail.send(msg)  
 
 @auth.route('/logout')
 @login_required
@@ -34,16 +70,17 @@ def logout():
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if request.method=='POST':        
+    if request.method=='POST':      
         email=request.form.get('email')
         first_name=request.form.get('firstName')
         last_name=request.form.get('lastName')
         password1=request.form.get('password1')
         password2=request.form.get('password2')
         
-        user=User.query.filter_by(email=email).first()
+        user=User.query.filter_by(email=email).first()       
+        
         if user:
-          flash('Email already exists', category='error')         
+            flash('Email already exists', category='error')         
         elif len(email)<4:
             flash('Email must be greater than 4 characters', category='error')
         elif len(first_name and last_name)<2:
@@ -53,12 +90,14 @@ def signup():
         elif len(password1)<7:
             flash('Password must be greater than 7 characters', category='error')
         else:
-            new_user=User(email=email, first_name=first_name, last_name=last_name, password=generate_password_hash(password1, method='pbkdf2:sha256:6000'))
+            otp_value = random.randint(000000,999999)
+            new_user=User(email=email, first_name=first_name, last_name=last_name, otp_secret=otp_value, is_verified=False, password=generate_password_hash(password1, method='pbkdf2:sha256:6000'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True)
-            flash('Account created!', category='success')
-            return redirect(url_for('views.home'))                       
+            send_otp_email(new_user.email, otp_value) 
+            flash('An OTP has been sent to your email. Please enter it to verify your account.', 'info')          
+            return redirect(url_for('auth.verify', email=new_user.email, otp_value=otp_value))           
+                                   
     return render_template("signup.html", user=current_user)
 
 @auth.route('/home')

@@ -21,7 +21,7 @@ body {
 }
 .custom-h1 {
     text-align: center;
-    font-family: 'Black Ops One';
+    font-family: 'Fjalla One';
     font-size: 50px;
 }
 .custom-border {
@@ -30,4 +30,22 @@ body {
 .custom-font-head {
     font-family: 'Permanent Marker';
     font-size: 30px;
+}
+.custom-font-otp {
+    text-align: center;
+    font-family: 'Permanent Marker';
+    font-size: 50px;
+}
+.custom-font-p {
+    font-family:  'Pacifico', cursive;
+    font-size: 30px;
+}
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

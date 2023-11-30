@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block title %}Verify{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<body>
+</br>
+    <div>
+        <h2 class="custom-font-otp">OTP Verification</h2>
+    </br>
+        <p class="custom-font-p">Enter the OTP sent to your email to verify your account.</p>
+</br>
+
+        <form method="post">
+            <label class="custom-font-nav" for="otp">OTP:</label>
+            <input  class="custom-font-nav" type="text" id="otp" name="otp" required placeholder="Enter OTP">
+            <button class="btn btn-primary custom-font-1" type="submit">Verify</button>
+        </form>
+    </div>
+</body>
+{% endblock %}

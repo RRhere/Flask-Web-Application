@@ -2,15 +2,19 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from flask_mail import Mail
 
 db=SQLAlchemy()
-DB_NAME="noteapp.db"
+DB_NAME="temp1.db"
+mail = Mail()
 
 def create_app():
     app=Flask(__name__)
     app.config['SECRET_KEY'] = '12345'
     app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'
+    app.config.from_object('config')
     db.init_app(app)    
+    mail.init_app(app)
         
     from .views import views
     from .auth import auth
