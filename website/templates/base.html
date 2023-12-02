@@ -23,11 +23,11 @@
                 <a class="nav-link active" id="logout" aria-current="page" href="/logout">LOGOUT</a>
                 {% else %}
                 <a class="nav-link active" id="login" aria-current="page" href="/login">LOGIN</a>
-                <a class="nav-link active" id="signUp" aria-current="page" href="/signup">SIGN UP</a>
+                <a class="nav-link active" id="signup" aria-current="page" href="/signup">SIGN UP</a>
                 {% endif %}                        
             </div>
-            <a class="navbar-brand mx-auto custom-h1" href="#">
-                NOTES WEB APP
+            <a class="navbar-brand mx-auto custom-h1" id="headtitle" href="#">
+                <span>NOTES WEB APP</span>
             </a>
         </div>
         
@@ -59,6 +59,9 @@
     {% block content %}
     {% endblock %}
     </div>
+    <div class="copyright">
+        <p>&copy; 2023 Ragav Radhesh.</p>
+    </div>
 
         <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -75,9 +78,6 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"
         ></script> 
-        <br/> 
-        <footer>
-            &copy; 2023 Ragav Radhesh.
-        </footer>  
+        <br/>   
 </body>
 </html>

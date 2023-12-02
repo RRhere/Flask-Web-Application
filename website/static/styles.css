@@ -1,8 +1,15 @@
-body {
+*{
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #ff8c00, #ff0033)
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+body {
+    background: #080808;
+    color: #fff;
+}
+.container{
+    padding:10px 10%;
 }
 .custom-font {
     font-family:  'Pacifico', cursive;
@@ -14,10 +21,13 @@ body {
 .custom-font-nav {
     font-family:  'Arvo', cursive;
     font-weight: bold;
-    font-size: 20px
+    font-size: 20px;
 }
 .custom-navbar {
-    background: linear-gradient(to right, #fefefd, #474042)
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .custom-h1 {
     text-align: center;
@@ -25,7 +35,7 @@ body {
     font-size: 50px;
 }
 .custom-border {
-    border-color: #111212;
+    border-color: #fff;
 }
 .custom-font-head {
     font-family: 'Permanent Marker';
@@ -40,12 +50,49 @@ body {
     font-family:  'Pacifico', cursive;
     font-size: 30px;
 }
-.footer {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
+.copyright{
     width: 100%;
+    text-align: center;
+    padding: 25px 0;
+    background: #262626;
+    font-weight: 300;
+    margin-top: 5%;
+    height: 100vh;
+}
+.navbar-nav a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+}
+.navbar-nav a::after{
+    content: "";
+    width: 0;
+    height: 3px;
+    background-color: #ff004f;
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    transition: 0.5s;
+}
+.navbar-nav a:hover::after{
+    width: 100%;
+}
+#login{
+    color: #fff;
+}
+#signup{
+    color: #fff;
+}
+#logout{
+    color: #fff;
+}
+#headtitle{
+    color: #fff;
+}
+.navbar-brand span{
+    background: linear-gradient(to right, #fff, red);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: none;
 }
