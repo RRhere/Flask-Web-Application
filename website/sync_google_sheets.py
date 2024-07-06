@@ -4,13 +4,13 @@ from .models import User
 
 def get_google_sheet():
     # Update with the path to your service account key JSON file
-    SERVICE_ACCOUNT_FILE = 'path/to/your/service-account-file.json'
+    SERVICE_ACCOUNT_FILE = 'RRhere/Notes-App/website/notes-app-406606-ed0f9eb055a4.json'
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 
     credentials = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     client = gspread.authorize(credentials)
     # Replace 'Your Google Sheet Name' with the name or URL of your Google Sheet
-    sheet = client.open("Your Google Sheet Name").sheet1
+    sheet = client.open("Notes-App").sheet1
     return sheet
 
 def sync_with_google_sheets():
