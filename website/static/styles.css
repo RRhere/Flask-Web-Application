@@ -122,8 +122,7 @@ body {
     position: relative;
 }
 .forgot {
-    text-align: right;
-    margin-top: 10px; 
+    text-align: right; 
 }
 .forgot a{
     color: #fff;

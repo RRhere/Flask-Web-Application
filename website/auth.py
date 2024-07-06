@@ -103,7 +103,7 @@ def signup():
 
     return render_template("signup.html", user=current_user)
 
-@auth.route('/forgot-password', methods=['GET', 'POST'])
+@auth.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     if request.method == 'POST':
         email = request.form.get('email')
@@ -121,7 +121,7 @@ def forgot_password():
 
     return render_template("forgot_password.html", user=current_user)
 
-@auth.route('/reset-password/<email>/<otp_value>', methods=['GET', 'POST'])
+@auth.route('/reset_password/<email>/<otp_value>', methods=['GET', 'POST'])
 def reset_password(email, otp_value):
     user = User.query.filter_by(email=email).first()
 
