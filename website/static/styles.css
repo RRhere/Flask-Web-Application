@@ -121,6 +121,22 @@ body {
     font-size: 18px;
     position: relative;
 }
+.forgot {
+    text-align: right;
+    margin-top: 10px; 
+}
+.forgot a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+}
+.forgot a:hover{
+    color: red;
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+}
 .copyright{
     width: 100%;
     text-align: center;
