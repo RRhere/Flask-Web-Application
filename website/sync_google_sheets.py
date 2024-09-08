@@ -19,9 +19,16 @@ def sync_with_google_sheets():
     # Fetch all users from the database
     users = User.query.all()
 
-    # Set the headers
-    sheet.append_row(["ID", "Email", "First Name", "Last Name", "Is Verified"])
+    # Fetch existing data to prevent duplicate headers
+    existing_data = sheet.get_all_values()
 
-    # Append user data
+    if len(existing_data) == 0:  # Add headers only if the sheet is empty
+        sheet.append_row(["ID", "Email", "First Name", "Last Name", "Is Verified"])
+
+    # Collect all user data in a list for batch update
+    user_data = []
     for user in users:
-        sheet.append_row([user.id, user.email, user.first_name, user.last_name, user.is_verified])
+        user_data.append([user.id, user.email, user.first_name, user.last_name, user.is_verified])
+
+    # Append data in batch (for efficiency)
+    sheet.append_rows(user_data)
