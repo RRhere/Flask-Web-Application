@@ -19,9 +19,6 @@ def sync_with_google_sheets():
     # Fetch all users from the database
     users = User.query.all()
 
-    # Clear the existing data in the sheet
-    sheet.clear()
-
     # Set the headers
     sheet.append_row(["ID", "Email", "First Name", "Last Name", "Is Verified"])
 
