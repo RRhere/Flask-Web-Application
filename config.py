@@ -12,5 +12,5 @@ MAIL_PORT = 587
 MAIL_USE_TLS = True
 MAIL_USE_SSL = False
 MAIL_USERNAME = 'tempmailonlyuse@gmail.com'
-MAIL_PASSWORD = 'tempmailonlyuse123'
+MAIL_PASSWORD = 'hjcu hoiz bzac sqde'
 MAIL_DEFAULT_SENDER = 'tempmailonlyuse@gmail.com'
