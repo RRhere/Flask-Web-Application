@@ -9,8 +9,8 @@ def get_google_sheet():
 
     credentials = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     client = gspread.authorize(credentials)
-    # Replace 'Your Google Sheet Name' with the name or URL of your Google Sheet
-    sheet = client.open("Notes-App").sheet1
+    sheet_id="1BO2yEEIuqxL80Up81E0OtkZRsYFDDWGvsrD5qui8eCo"
+    sheet = client.open_by_key(sheet_id)
     return sheet
 
 def sync_with_google_sheets():
